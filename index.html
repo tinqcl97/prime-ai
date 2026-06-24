@@ -168,6 +168,80 @@ footer .copy{font-size:.7rem;color:rgba(246,246,242,.35)}
 .toast{position:fixed;bottom:2rem;left:50%;transform:translate(-50%,12px);z-index:300;background:var(--card);border:1px solid var(--card-border);color:var(--paper);font-size:.85rem;padding:.7rem 1.4rem;border-radius:9999px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
+@media(max-width:768px){
+  html{font-size:15px}
+  body{background:#151617}
+  nav.main-nav{padding:.85rem 1rem;background:linear-gradient(180deg,rgba(22,23,25,.82),rgba(22,23,25,0));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .logo{gap:.5rem;min-width:0}
+  .logo .mark{width:30px;height:30px}
+  .logo .wordmark{font-size:1.05rem}
+  .logo .tagline-micro{font-size:.48rem;letter-spacing:.16em;max-width:8.5rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  nav .nav-right{gap:.45rem}
+  nav .nav-right .pill{display:none}
+  .menu-btn{width:40px;height:40px;background:rgba(0,0,0,.18)}
+  .site-menu .inner{padding:6rem 1.25rem 2rem}
+  .site-menu a{font-size:clamp(2.2rem,12vw,3.2rem)}
+
+  #hero-wrapper{height:235vh}
+  #hero-sticky{min-height:100svh;height:100svh}
+  .portal-label{padding:0 1.25rem;gap:.7rem;transform:translateY(-3vh)}
+  .portal-label .pl-brand{font-size:.72rem;letter-spacing:.34em}
+  .portal-label .pl-sub{font-size:.58rem;letter-spacing:.22em}
+  .hero-overlay .inner{gap:1.5rem;padding:1.25rem 1.15rem 2rem}
+  .hero-overlay h1{font-size:clamp(2.55rem,13vw,4rem);line-height:.98;max-width:9ch}
+  .hero-overlay p.tagline{font-size:1.02rem;line-height:1.48;margin-top:1rem;max-width:21rem}
+  .hero-overlay .signature{gap:.45rem}
+
+  #world{min-height:92svh}
+  #world .content{padding:6rem 1.25rem}
+  #world h2{font-size:clamp(3rem,15vw,5.4rem);line-height:.95}
+  #world .sub{font-size:.98rem;line-height:1.65;margin-top:1.65rem}
+  #world .world-cta{margin-top:2rem}
+
+  #projects{padding:6.25rem 0 5rem;background:linear-gradient(180deg,#0d9ee6 0%,#0b5e86 12%,#171717 27%,#171717 100%)}
+  .projects-head{padding:0 1.1rem;text-align:left}
+  .projects-head .eyebrow{font-size:.64rem;letter-spacing:.24em}
+  .projects-head h2{font-size:clamp(2.15rem,10vw,3.2rem)}
+  .projects-head p{font-size:.92rem;line-height:1.65;margin-left:0;margin-right:0}
+  .filter-row{margin-top:1.75rem;padding:0 1.1rem 0 1.1rem;scroll-padding:1.1rem;gap:.5rem}
+  .filter-pill{padding:.52rem 1rem;font-size:.76rem}
+  .gallery{margin-top:1.65rem;padding:0 1rem;gap:13px}
+  .project-card{border-radius:18px;background:linear-gradient(180deg,#242424,#1d1d1d);box-shadow:0 12px 32px rgba(0,0,0,.22)}
+  .project-card:hover{transform:none;box-shadow:0 12px 32px rgba(0,0,0,.22)}
+  .project-card .media{aspect-ratio:16/10}
+  .project-card .media video,.project-card .media img{transform:none!important}
+  .project-card .info{padding:.95rem 1rem 1rem;align-items:flex-start}
+  .project-card .info h3{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.25;font-size:1rem}
+  .project-card .info .cat{font-size:.73rem;line-height:1.35;margin-top:.35rem}
+  .project-card .info .view-btn{padding:.42rem .78rem;margin-top:.05rem}
+
+  .modal-backdrop{align-items:flex-end;padding:.65rem;background:rgba(10,11,12,.88)}
+  .modal{width:100%;max-height:92svh;border-radius:22px 22px 18px 18px}
+  .modal .m-media video,.modal .m-media img{max-height:42svh;object-fit:contain;background:#111}
+  .modal .m-body{padding:1.15rem 1.05rem 1.35rem}
+  .modal .m-cat{font-size:.65rem;letter-spacing:.16em;line-height:1.4}
+  .modal h3{font-size:1.38rem;line-height:1.18}
+  .modal .m-desc{font-size:.93rem;line-height:1.62}
+  .modal .m-actions .pill{width:100%;justify-content:center}
+  .modal-close{top:.7rem;right:.7rem;width:38px;height:38px;background:rgba(0,0,0,.68)}
+  .modal-nav{top:31%;width:38px;height:38px;background:rgba(0,0,0,.56)}
+  .modal-nav.prev{left:.75rem}.modal-nav.next{right:.75rem}
+
+  #cta{padding:5.5rem 1.15rem}
+  #cta h2{font-size:clamp(2.15rem,10vw,3.4rem)}
+  #cta .pill{width:min(100%,22rem);justify-content:center;margin-top:2rem}
+  footer .inner{align-items:flex-start;text-align:left;padding:2rem 1.25rem;gap:1.1rem}
+  footer .foot-links{width:100%;justify-content:space-between;gap:1rem}
+  footer .copy{line-height:1.5}
+}
+
+@media(max-width:380px){
+  .logo .tagline-micro{display:none}
+  .project-card .info{flex-direction:column;gap:.8rem}
+  .project-card .info .view-btn{align-self:flex-start}
+  footer .foot-links{flex-wrap:wrap;justify-content:flex-start}
+}
+
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .cloud,.portal-label .pl-enter::after{animation:none!important}
