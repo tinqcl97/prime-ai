@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prime AI — Step Through to Effortless</title>
+<meta name="description" content="Prime AI builds agents and automated workflows that take repetitive work off teams, operating quietly and reliably every day.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600;700&family=Allura&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#161719;--sky:#20BDF2;--paper:#F6F6F2;--muted:#A5A7AA;
+  --card:#202020;--card-border:#303030;
+  --nav-fg:var(--paper);--nav-pill-bg:var(--paper);--nav-pill-fg:var(--ink);
+  --logo-ai:#20BDF2;
+}
+html[data-theme="light"]{
+  --nav-fg:var(--ink);--nav-pill-bg:var(--ink);--nav-pill-fg:var(--paper);
+  --logo-ai:#08506e;
+}
+html{scroll-behavior:smooth;background:var(--ink)}
+body{background:var(--ink);color:var(--paper);font-family:'Sora',system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--sky);color:var(--ink)}
+
+.grain::after{content:"";position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:9999;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E")}
+
+.font-script{font-family:'Allura',cursive}
+.font-serif{font-family:'Instrument Serif',Georgia,serif}
+.headline{font-weight:300;letter-spacing:-0.02em;line-height:1.02;text-wrap:balance}
+
+.pill{display:inline-flex;align-items:center;gap:.5rem;border-radius:9999px;padding:.7rem 1.5rem;font-size:.875rem;font-weight:500;text-decoration:none;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s cubic-bezier(.22,1,.36,1),background-color .35s ease,color .35s ease;cursor:pointer;border:none}
+.pill:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.18)}
+.pill:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid var(--sky);outline-offset:3px}
+
+/* ── NAV + LOGO ── */
+nav.main-nav{position:fixed;inset:0 0 auto;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2.5rem}
+@media(max-width:768px){nav.main-nav{padding:1rem 1.25rem}}
+.logo{display:inline-flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--nav-fg);transition:color .5s}
+.logo .mark{width:34px;height:34px;flex-shrink:0}
+.logo .wordmark{font-weight:700;font-size:1.25rem;letter-spacing:-0.03em;line-height:1}
+.logo .wordmark .ai{color:var(--logo-ai);transition:color .5s}
+.logo .tagline-micro{display:block;font-weight:400;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+nav .nav-right{display:flex;align-items:center;gap:.75rem}
+.menu-btn{width:44px;height:44px;border-radius:50%;border:1px solid;display:flex;align-items:center;justify-content:center;background:transparent;cursor:pointer;transition:border-color .5s,color .5s}
+.menu-btn span{display:block;position:relative;width:16px;height:12px}
+.menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0;width:100%;height:1px;background:currentColor;transition:transform .3s ease}
+.menu-btn span::before{top:0}
+.menu-btn span::after{bottom:0}
+.menu-btn.open span::before{transform:translateY(5.5px) rotate(45deg)}
+.menu-btn.open span::after{transform:translateY(-5.5px) rotate(-45deg)}
+
+.site-menu{position:fixed;inset:0 0 auto;z-index:90;background:rgba(22,23,25,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transform:translateY(-1rem);opacity:0;pointer-events:none;transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .5s cubic-bezier(.22,1,.36,1)}
+.site-menu.open{transform:translateY(0);opacity:1;pointer-events:auto}
+.site-menu .inner{max-width:1200px;margin:0 auto;padding:7rem 2.5rem 3rem;display:flex;flex-direction:column;gap:.5rem}
+.site-menu a{font-weight:300;letter-spacing:-0.02em;font-size:clamp(2rem,5vw,3.5rem);color:var(--paper);text-decoration:none;transition:color .3s}
+.site-menu a:hover{color:var(--sky)}
+
+/* ── HERO ── */
+#hero-wrapper{position:relative;height:300vh}
+#hero-sticky{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--ink)}
+#portal-canvas{position:absolute;inset:0}
+
+.portal-label{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;pointer-events:none;text-align:center;will-change:transform,opacity}
+.portal-label .pl-brand{font-weight:600;font-size:.85rem;letter-spacing:.5em;text-transform:uppercase;color:rgba(255,255,255,.95);text-shadow:0 2px 18px rgba(8,60,90,.45)}
+.portal-label .pl-sub{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.75);text-shadow:0 2px 14px rgba(8,60,90,.45)}
+.portal-label .pl-enter{margin-top:.6rem;font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.portal-label .pl-enter::after{content:"↓";display:block;margin-top:.35rem;font-size:.9rem;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+.hero-overlay{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;justify-content:flex-end;pointer-events:none}
+.hero-overlay .inner{display:flex;flex-direction:column;gap:2.5rem;padding:2.5rem;width:100%}
+@media(min-width:769px){.hero-overlay .inner{flex-direction:row;align-items:flex-end;justify-content:space-between;padding:3rem 2.5rem}}
+.hero-overlay h1{font-size:clamp(2.6rem,6vw,5rem)}
+.hero-overlay p.tagline{max-width:30rem;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:clamp(1.05rem,1.8vw,1.35rem);line-height:1.55;color:rgba(246,246,242,.92);margin-top:1.25rem}
+.hero-overlay .signature{display:flex;flex-direction:column;align-items:flex-start;gap:.75rem}
+@media(min-width:769px){.hero-overlay .signature{align-items:flex-end}}
+.hero-overlay .sig-text{font-size:.7rem;text-transform:uppercase;letter-spacing:.2em;color:var(--muted)}
+.hero-overlay .scroll-hint{font-size:.7rem;color:rgba(165,167,170,.6);display:none}
+@media(min-width:769px){.hero-overlay .scroll-hint{display:block}}
+
+.hero-veil{position:absolute;inset:0;z-index:10;opacity:0;pointer-events:none;background:linear-gradient(180deg,#59cdf5 0%,#20BDF2 55%,#0d9ee6 100%)}
+.loading-screen{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:var(--ink);transition:opacity .7s ease}
+.loading-screen.hidden{opacity:0;pointer-events:none}
+
+/* ── BLUE WORLD ── */
+#world{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(180deg,#59cdf5 0%,#20BDF2 45%,#0d9ee6 100%)}
+.cloud{position:absolute;border-radius:9999px;background:radial-gradient(closest-side,rgba(255,255,255,.85),rgba(255,255,255,0));filter:blur(28px);will-change:transform}
+#world .content{position:relative;z-index:10;max-width:56rem;margin:0 auto;padding:8rem 1.5rem;text-align:center}
+#world h2{font-weight:600;letter-spacing:-0.035em;line-height:1.0;font-size:clamp(3.2rem,9vw,7.5rem);color:var(--paper);filter:drop-shadow(0 4px 10px rgba(8,60,90,.18))}
+#world h2 .word{display:inline-block;will-change:transform,opacity}
+#world .sub{margin-top:2.25rem;font-size:clamp(.95rem,1.5vw,1.15rem);line-height:1.7;color:rgba(246,246,242,.88);max-width:34rem;margin-left:auto;margin-right:auto}
+#world .world-cta{margin-top:2.5rem;display:inline-flex}
+
+/* ── PROJECTS GALLERY ── */
+#projects{position:relative;background:linear-gradient(180deg,#0d9ee6 0%,#0b5e86 18%,#171717 38%,#171717 100%);padding:9rem 0 7rem}
+.projects-head{max-width:1200px;margin:0 auto;padding:0 2.5rem;text-align:center}
+@media(max-width:768px){.projects-head{padding:0 1.25rem}}
+.projects-head .eyebrow{font-size:.7rem;text-transform:uppercase;letter-spacing:.3em;color:rgba(246,246,242,.65)}
+.projects-head h2{margin-top:1rem;font-weight:700;letter-spacing:-0.03em;font-size:clamp(2.2rem,5vw,4rem);line-height:1.05}
+.projects-head h2 .ai{color:var(--sky)}
+.projects-head p{margin:1.25rem auto 0;max-width:32rem;color:var(--muted);font-size:.95rem;line-height:1.7}
+
+.filter-row{display:flex;justify-content:center;gap:.6rem;margin:2.5rem auto 0;padding:0 1.25rem;flex-wrap:wrap}
+@media(max-width:768px){.filter-row{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;-webkit-overflow-scrolling:touch;scrollbar-width:none}.filter-row::-webkit-scrollbar{display:none}}
+.filter-pill{flex-shrink:0;border-radius:9999px;padding:.55rem 1.25rem;font-size:.8rem;font-weight:500;font-family:inherit;background:var(--card);color:var(--muted);border:1px solid var(--card-border);cursor:pointer;transition:all .25s ease}
+.filter-pill:hover{border-color:#4a4a4a;color:var(--paper)}
+.filter-pill.active{background:var(--sky);border-color:var(--sky);color:var(--ink)}
+
+.gallery{max-width:1200px;margin:3rem auto 0;padding:0 2.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:1024px){.gallery{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.gallery{grid-template-columns:1fr;padding:0 1.25rem}}
+.project-card{background:var(--card);border:1px solid var(--card-border);border-radius:16px;overflow:hidden;cursor:pointer;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;will-change:transform}
+.project-card:hover{transform:translateY(-4px);border-color:#4a4d52;box-shadow:0 16px 40px rgba(0,0,0,.4)}
+.project-card .media{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;background:#1a1a1a}
+.project-card .media video,.project-card .media img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
+.project-card:hover .media video,.project-card:hover .media img{transform:scale(1.04)}
+.project-card .media .placeholder{display:flex;align-items:center;justify-content:center;width:100%;color:rgba(255,255,255,.9)}
+.project-card .media::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,0);transition:background .25s ease;pointer-events:none}
+.project-card:hover .media::after{background:rgba(0,0,0,.12)}
+.project-card .info{padding:1rem 1.1rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+.project-card .info .meta{min-width:0}
+.project-card .info h3{font-size:.95rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#F5F5F5}
+.project-card .info .cat{font-size:.72rem;color:rgba(255,255,255,.58);margin-top:2px}
+.project-card .info .view-btn{flex-shrink:0;border-radius:9999px;border:1px solid var(--card-border);background:transparent;color:var(--muted);font-size:.72rem;font-weight:500;font-family:inherit;padding:.4rem .9rem;cursor:pointer;transition:all .25s ease}
+.project-card:hover .info .view-btn{background:var(--sky);border-color:var(--sky);color:var(--ink)}
+.gallery-empty{text-align:center;color:var(--muted);padding:4rem 1.5rem;display:none}
+
+/* ── PROJECT MODAL ── */
+.modal-backdrop{position:fixed;inset:0;z-index:200;background:rgba(10,11,12,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:1.5rem;opacity:0;transition:opacity .3s ease}
+.modal-backdrop.open{display:flex}
+.modal-backdrop.visible{opacity:1}
+.modal{position:relative;width:min(880px,100%);max-height:90vh;overflow-y:auto;background:var(--card);border:1px solid var(--card-border);border-radius:20px;transform:translateY(16px) scale(.98);transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.modal-backdrop.visible .modal{transform:translateY(0) scale(1)}
+.modal .m-media{width:100%;background:#1a1a1a}
+.modal .m-media video,.modal .m-media img{display:block;width:100%;height:auto}
+.modal .m-media .placeholder{display:flex;align-items:center;justify-content:center;width:100%;min-height:320px;color:rgba(255,255,255,.9)}
+.modal .m-body{padding:1.75rem 2rem 2rem}
+@media(max-width:640px){.modal .m-body{padding:1.25rem 1.25rem 1.5rem}}
+.modal .m-cat{font-size:.72rem;text-transform:uppercase;letter-spacing:.2em;color:var(--sky)}
+.modal h3{margin-top:.5rem;font-size:1.6rem;font-weight:700;letter-spacing:-0.02em}
+.modal .m-desc{margin-top:.9rem;color:rgba(255,255,255,.7);font-size:.95rem;line-height:1.75}
+.modal .m-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.25rem}
+.modal .m-tags span{font-size:.7rem;border:1px solid var(--card-border);border-radius:9999px;padding:.3rem .8rem;color:var(--muted)}
+.modal .m-actions{display:flex;gap:.75rem;margin-top:1.75rem;flex-wrap:wrap}
+.modal .m-link{background:var(--sky);color:var(--ink)}
+.modal-close{position:absolute;top:1rem;right:1rem;z-index:5;width:40px;height:40px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:1.1rem;cursor:pointer;transition:background .25s}
+.modal-close:hover{background:rgba(0,0,0,.8)}
+.modal-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:42px;height:42px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:1rem;cursor:pointer;transition:background .25s}
+.modal-nav:hover{background:rgba(0,0,0,.8)}
+.modal-nav.prev{left:1rem}
+.modal-nav.next{right:1rem}
+
+/* ── CTA + FOOTER (dark) ── */
+#cta{position:relative;overflow:hidden;background:#171717;text-align:center;padding:8rem 1.5rem}
+#cta h2{font-size:clamp(2.2rem,5vw,4.5rem)}
+#cta .pill{margin-top:3rem;background:var(--sky);color:var(--ink);font-size:1rem;padding:.9rem 2rem}
+footer.site-footer{border-top:1px solid #262626;background:#141414}
+footer .inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:1.5rem;padding:2.5rem 1.5rem}
+@media(min-width:769px){footer .inner{flex-direction:row;justify-content:space-between}}
+footer .foot-links{display:flex;gap:2rem}
+footer .foot-links a{font-size:.85rem;color:rgba(246,246,242,.55);text-decoration:none;transition:color .3s}
+footer .foot-links a:hover{color:var(--paper)}
+footer .copy{font-size:.7rem;color:rgba(246,246,242,.35)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translate(-50%,12px);z-index:300;background:var(--card);border:1px solid var(--card-border);color:var(--paper);font-size:.85rem;padding:.7rem 1.4rem;border-radius:9999px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .cloud,.portal-label .pl-enter::after{animation:none!important}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+}
+</style>
+</head>
+<body class="grain">
+
+<nav class="main-nav" aria-label="Main">
+  <a href="#top" class="logo" aria-label="Prime AI — home">
+    <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <circle cx="20" cy="20" r="15.5" stroke="currentColor" stroke-opacity="0.35" stroke-width="2"/>
+      <circle cx="20" cy="20" r="15.5" stroke="#20BDF2" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="58 40" transform="rotate(-55 20 20)"/>
+      <circle cx="20" cy="20" r="6.5" fill="#20BDF2"/>
+      <circle cx="20" cy="20" r="6.5" fill="url(#logoGlow)"/>
+      <defs><radialGradient id="logoGlow" cx="0.35" cy="0.3" r="1"><stop offset="0%" stop-color="#bfeaff"/><stop offset="100%" stop-color="#20BDF2"/></radialGradient></defs>
+    </svg>
+    <span class="wordmark">Prime<span class="ai">&hairsp;AI</span><span class="tagline-micro">Agents &amp; Automation</span></span>
+  </a>
+  <div class="nav-right">
+    <a href="#projects" class="pill" style="background:var(--nav-pill-bg);color:var(--nav-pill-fg)">See projects <span aria-hidden>↗</span></a>
+    <button class="menu-btn" id="menuBtn" style="border-color:var(--nav-fg);color:var(--nav-fg)" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenu"><span></span></button>
+  </div>
+</nav>
+
+<div class="site-menu" id="siteMenu">
+  <div class="inner">
+    <a href="#top" class="menu-link">Home</a>
+    <a href="#world" class="menu-link">The world inside</a>
+    <a href="#projects" class="menu-link">Projects</a>
+    <a href="#cta" class="menu-link">Get started</a>
+  </div>
+</div>
+
+<div id="hero-wrapper">
+  <section id="hero-sticky" aria-label="Intro">
+    <canvas id="portal-canvas"></canvas>
+    <div class="loading-screen" id="loadingScreen">
+      <p style="font-weight:700;font-size:1.4rem">Prime<span style="color:var(--sky)"> AI</span></p>
+    </div>
+
+    <div class="portal-label" id="portalLabel" aria-hidden="true">
+      <p class="pl-brand">Prime AI</p>
+      <p class="pl-sub">Agents · Automation · Workflows</p>
+      <p class="pl-enter">Scroll to enter</p>
+    </div>
+
+    <div class="hero-overlay" id="heroOverlay">
+      <div class="inner">
+        <div style="max-width:38rem">
+          <h1 class="headline" style="color:var(--paper)">Step through to <span class="font-script" style="color:var(--sky)">effortless.</span></h1>
+          <p class="tagline">Prime AI builds agents and automated workflows that take repetitive work off teams, operating quietly and reliably every day.</p>
+        </div>
+        <div class="signature">
+          <p class="sig-text">Workflows that run themselves</p>
+          <p class="scroll-hint">Scroll to step through ↓</p>
+        </div>
+      </div>
+    </div>
+    <div class="hero-veil" id="heroVeil"></div>
+  </section>
+</div>
+
+<section id="world">
+  <div class="cloud" style="width:520px;height:180px;top:12%;left:-6%"></div>
+  <div class="cloud" style="width:420px;height:150px;top:26%;left:55%"></div>
+  <div class="cloud" style="width:640px;height:210px;top:58%;left:20%"></div>
+  <div class="cloud" style="width:360px;height:130px;top:74%;left:70%"></div>
+  <div class="cloud" style="width:300px;height:110px;top:8%;left:72%"></div>
+  <div class="content">
+    <h2 id="worldHeadline" aria-label="Real work, running itself."><span class="word">Real</span> <span class="word">work,</span><br><span class="word">running</span> <span class="word">itself.</span></h2>
+    <p class="sub">On the other side of the portal, reports write themselves, inboxes triage themselves, and your week gets lighter. This is what we ship.</p>
+    <a href="#projects" class="pill world-cta" style="background:var(--paper);color:var(--ink)">Explore the projects <span aria-hidden>↓</span></a>
+  </div>
+</section>
+
+<section id="projects" aria-label="Projects">
+  <div class="projects-head">
+    <p class="eyebrow">Shipped, not slides</p>
+    <h2>Everything Prime<span class="ai">&hairsp;AI</span> is building</h2>
+    <p>Real tools, agents, and automations in production — from Amazon advertising suites to browser extensions and mobile apps. Click any card to see it in motion.</p>
+  </div>
+
+  <div class="filter-row" id="filterRow" role="tablist" aria-label="Filter projects">
+    <button class="filter-pill active" data-filter="all">All</button>
+    <button class="filter-pill" data-filter="Automation">Automation</button>
+    <button class="filter-pill" data-filter="Tools">Tools</button>
+    <button class="filter-pill" data-filter="Extensions">Extensions</button>
+    <button class="filter-pill" data-filter="Apps">Apps</button>
+    <button class="filter-pill" data-filter="Web">Web</button>
+  </div>
+
+  <div class="gallery" id="gallery"></div>
+  <p class="gallery-empty" id="galleryEmpty">No projects in this category yet — more shipping soon.</p>
+</section>
+
+<section id="cta" aria-label="Get started">
+  <div id="ctaInner">
+    <h2 class="headline" style="color:var(--paper)">Your team has better things to do.</h2>
+    <a href="https://calendly.com/tin-claw9/15-minute-meeting" target="_blank" rel="noopener" class="pill">Schedule call <span aria-hidden>→</span></a>
+  </div>
+</section>
+
+<footer class="site-footer" id="pageEnd">
+  <div class="inner">
+    <p style="font-weight:700;font-size:1.1rem">Prime<span style="color:var(--sky)"> AI</span></p>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#projects">Projects</a>
+      <a href="#contact" id="contactLink">Contact</a>
+      <a href="https://x.com/tin_rudnicki" target="_blank" rel="noopener">X</a>
+    </nav>
+    <p class="copy">© 2026 Prime AI. AI automation for businesses that want their time back.</p>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-label="Project details">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <button class="modal-nav prev" id="modalPrev" aria-label="Previous project">←</button>
+    <button class="modal-nav next" id="modalNext" aria-label="Next project">→</button>
+    <div class="m-media" id="modalMedia"></div>
+    <div class="m-body">
+      <p class="m-cat" id="modalCat"></p>
+      <h3 id="modalTitle"></h3>
+      <p class="m-desc" id="modalDesc"></p>
+      <div class="m-tags" id="modalTags"></div>
+      <div class="m-actions" id="modalActions"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ════════════════════════════════════════════════════════════
+   PROJECTS DATA — edit this list to add your projects.
+   media options:
+     {type:'video', src:'myclip.mp4'}        ← put the file next to this HTML
+     {type:'image', src:'screenshot.png'}
+     {type:'gradient', from:'#hex', to:'#hex', icon:'⚡', h:220}  ← placeholder
+   link is optional (live URL, store listing, etc.)
+════════════════════════════════════════════════════════════ */
+const PROJECTS = [
+  {
+    title: "Kids Mobile Game for Learning",
+    category: "Apps",
+    displayCategory: "Kids mobile game for learning",
+    description: "A fun, interactive game that helps children learn colors, numbers, animals, and cars. Built-in audio pronounces each answer out loud, so kids listen, repeat, and pick the right one — turning early learning into play.",
+    tags: ["Mobile", "Kids", "Learning", "Built with AI"],
+    media: { type: "video", src: "videos/project-1.mp4" }
+  },
+  {
+    title: "Happy Kids — Music Video / AI Avatar",
+    category: "Apps",
+    displayCategory: "AI-generated content & animation",
+    description: "A showcase of what we create with AI: animated films, AI avatars, cartoons, and original songs. From concept to finished music video, we bring ideas to life with custom characters, visuals, and sound.",
+    tags: ["AI Avatar", "Animation", "Music Video", "Built with AI"],
+    link: "https://www.youtube.com/watch?v=88x-tpXo7R4",
+    linkLabel: "Check the full video",
+    media: { type: "video", src: "videos/happy-day-kids.mp4" }
+  },
+  {
+    title: "Tab Memory — Chrome Extension",
+    category: "Extensions",
+    displayCategory: "Free productivity tool",
+    description: "A Chrome extension that helps you organize your browser tabs and save time. Group, sort, and manage open tabs effortlessly to stay focused and clutter-free.",
+    tags: ["Chrome", "Tabs", "Productivity", "Free"],
+    link: "https://chromewebstore.google.com/detail/tab-memory/ojokiacedhgphiogmipdpdobbbjaohci",
+    linkLabel: "Download the extension for free",
+    media: { type: "video", src: "videos/chrome-extension.mp4" }
+  },
+  {
+    title: "DailyX — X Activity Tracker",
+    category: "Automation",
+    displayCategory: "Productivity tweak for X",
+    description: "A simple tool that counts your daily posts, replies, and shares on X — perfect for staying organized and growing your account. More data coming soon: a full dashboard with complete activity tracking and logs, all in one place.",
+    tags: ["X", "Tracking", "Productivity", "Built with AI"],
+    media: { type: "video", src: "videos/daily-x.mp4" }
+  },
+  {
+    title: "AI Agent Setup & Orchestration",
+    category: "Tools",
+    displayCategory: "Run every agent in one place",
+    description: "Full setup and support for running AI agents — Hermes, OpenClaw, Claude, Codex, and local models. From installation to configuration, we help you get your agents up and running and working together smoothly.",
+    tags: ["Agents", "Hermes", "OpenClaw", "Codex"],
+    media: { type: "video", src: "videos/project-2.mp4" }
+  },
+  {
+    title: "Amazon Seller SaaS — Custom Dashboard",
+    category: "Tools",
+    displayCategory: "Tailored analytics for high-volume sellers",
+    description: "A custom-built Amazon SaaS tool for a seller doing $15M/year in premium eyewear (Ray-Ban, Oakley, Costa Del Mar, Versace). All Amazon data unified in one place — graphs, metrics, and reports fully personalized to their business for instant access anytime.",
+    tags: ["Amazon", "SaaS", "Analytics", "Dashboard"],
+    media: { type: "video", src: "videos/project-5.mp4" }
+  },
+  {
+    title: "Hermes Agent Setup",
+    category: "Web",
+    displayCategory: "Fast-track your big agent build",
+    description: "Complete Hermes agent setup, including Telegram connection and model integration. Get a powerful agent up and running quickly — configured, connected, and ready to work.",
+    tags: ["Hermes", "Telegram", "AI Agents", "Setup"],
+    media: { type: "video", src: "videos/project-7.mp4" }
+  },
+  {
+    title: "3D Website Design",
+    category: "Automation",
+    displayCategory: "Custom sites built to your vision",
+    description: "Advanced, AI-powered websites designed exactly how you want them — not the generic templates everyone else uses. Bold, standout designs crafted with serious prompting to make your brand unforgettable.",
+    tags: ["3D", "Website", "Design", "Built with AI"],
+    media: { type: "video", src: "videos/project-6.mp4" }
+  },
+  {
+    title: "Multi-Agent Setup — OpenClaw",
+    category: "Tools",
+    displayCategory: "Workflow automation, fully connected",
+    description: "Setup of a multi-agent OpenClaw system that handles many tasks for you — connecting different models, agents, and skills to automate your workflows end to end.",
+    tags: ["OpenClaw", "Multi-Agent", "Automation", "Workflow"],
+    media: { type: "video", src: "videos/project-8.mp4" }
+  }
+];
+
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = window.innerWidth < 769;
+const lowPower = isMobile || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+
+/* ─── THREE.JS PORTAL ─── */
+const canvas = document.getElementById('portal-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: !lowPower, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, lowPower ? 1.5 : 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x161719);
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x161719, 9, 18);
+const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.05, 60);
+camera.position.set(0, 0, 7.4);
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+const dirLight = new THREE.DirectionalLight(0xffffff, 0.9); dirLight.position.set(4, 5, 6); scene.add(dirLight);
+const blueDir = new THREE.DirectionalLight(0x20BDF2, 0.25); blueDir.position.set(-5, -2, 4); scene.add(blueDir);
+const pointLight = new THREE.PointLight(0x20BDF2, 2.4, 7); pointLight.position.set(0, 0, 1.2); scene.add(pointLight);
+
+const portalGroup = new THREE.Group();
+scene.add(portalGroup);
+const ringSegments = lowPower ? 64 : 160;
+portalGroup.add(new THREE.Mesh(
+  new THREE.TorusGeometry(2.05, 0.22, lowPower ? 24 : 48, ringSegments),
+  new THREE.MeshStandardMaterial({ color: 0x26282c, metalness: 0.85, roughness: 0.32 })
+));
+const rim = new THREE.Mesh(
+  new THREE.TorusGeometry(1.9, 0.025, 12, ringSegments),
+  new THREE.MeshStandardMaterial({ color: 0x20BDF2, emissive: 0x20BDF2, emissiveIntensity: 2.2, toneMapped: false })
+);
+rim.position.z = 0.06;
+portalGroup.add(rim);
+
+const worldVertex = `varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`;
+const worldFragment = `
+precision highp float;
+varying vec2 vUv; uniform float uTime;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}
+float noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);vec2 u=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);}
+float fbm(vec2 p){float v=0.0;float a=0.5;for(int i=0;i<4;i++){v+=a*noise(p);p*=2.1;a*=0.5;}return v;}
+void main(){
+  vec3 deep=vec3(0.05,0.62,0.90);vec3 mid=vec3(0.125,0.74,0.95);vec3 light=vec3(0.78,0.94,1.0);
+  float g=smoothstep(0.0,1.0,vUv.y);
+  vec3 sky=mix(deep,mid,g);sky=mix(sky,light,pow(g,3.0)*0.7);
+  vec2 p1=vUv*vec2(3,2)+vec2(uTime*0.025,0);vec2 p2=vUv*vec2(5,3.4)+vec2(-uTime*0.014,uTime*0.004);
+  float c1=smoothstep(0.48,0.85,fbm(p1));float c2=smoothstep(0.55,0.92,fbm(p2))*0.6;
+  vec3 col=mix(sky,vec3(1),clamp(c1+c2,0.0,1.0)*0.75);
+  float d=distance(vUv,vec2(0.5));col+=vec3(0.10,0.16,0.18)*smoothstep(0.55,0.0,d)*0.5;
+  gl_FragColor=vec4(col,1.0);
+}`;
+const worldMat = new THREE.ShaderMaterial({ vertexShader: worldVertex, fragmentShader: worldFragment, uniforms: { uTime: { value: 0 } }, side: THREE.DoubleSide, depthWrite: false });
+const worldDisc = new THREE.Mesh(new THREE.CircleGeometry(1.92, lowPower ? 48 : 96), worldMat);
+worldDisc.renderOrder = -1;
+portalGroup.add(worldDisc);
+
+const particleCount = lowPower ? 90 : 260;
+const pPositions = new Float32Array(particleCount * 3);
+for (let i = 0; i < particleCount; i++) {
+  pPositions[i*3] = (Math.random()-0.5)*16;
+  pPositions[i*3+1] = (Math.random()-0.5)*10;
+  pPositions[i*3+2] = (Math.random()-0.5)*10-1;
+}
+const pGeo = new THREE.BufferGeometry();
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x8fd9f2, size: 0.02, sizeAttenuation: true, transparent: true, opacity: 0.55, depthWrite: false }));
+scene.add(particles);
+
+let scrollProgress = 0, mouseX = 0, mouseY = 0;
+if (!reducedMotion) {
+  document.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+  });
+}
+
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+  worldMat.uniforms.uTime.value += (1/60) * (lowPower ? 0.6 : 1.0);
+
+  const p = reducedMotion ? 0 : Math.max(0, Math.min(1, scrollProgress));
+  const eased = p * p * (3 - 2 * p);
+  camera.position.z = 7.4 + (0.35 - 7.4) * eased;
+
+  if (!reducedMotion && !lowPower) {
+    const damp = 1 - eased;
+    camera.position.x += (mouseX * 0.35 * damp - camera.position.x) * 0.05;
+    camera.position.y += (mouseY * 0.22 * damp - camera.position.y) * 0.05;
+  }
+  camera.lookAt(0, 0, 0);
+
+  if (!reducedMotion) {
+    portalGroup.scale.setScalar(1 + Math.sin(t * 0.6) * 0.015);
+    portalGroup.position.y = Math.sin(t * 0.4) * 0.06;
+    portalGroup.rotation.z = Math.sin(t * 0.2) * 0.02;
+  }
+  particles.rotation.y = t * 0.012;
+  renderer.render(scene, camera);
+}
+document.getElementById('loadingScreen').classList.add('hidden');
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+/* ─── HERO SCROLL ─── */
+if (!reducedMotion) {
+  ScrollTrigger.create({
+    trigger: '#hero-wrapper', start: 'top top', end: 'bottom bottom', scrub: true,
+    onUpdate: self => {
+      scrollProgress = self.progress;
+      const p = self.progress;
+      const overlay = document.getElementById('heroOverlay');
+      const veil = document.getElementById('heroVeil');
+      const label = document.getElementById('portalLabel');
+      overlay.style.opacity = Math.max(0, Math.min(1, 1 - p / 0.45));
+      overlay.style.transform = `translateY(${p * 60}px)`;
+      veil.style.opacity = Math.max(0, Math.min(1, (p - 0.86) / 0.14));
+      // Label scales up and fades as you fly past it
+      const lp = Math.max(0, Math.min(1, p / 0.55));
+      label.style.opacity = 1 - lp;
+      label.style.transform = `scale(${1 + lp * lp * 5})`;
+    }
+  });
+}
+
+/* Nav theme: light only while the cyan world is on screen */
+ScrollTrigger.create({
+  trigger: '#world', start: 'top 80px', end: 'bottom 35%',
+  onToggle: self => { document.documentElement.dataset.theme = self.isActive ? 'light' : 'dark'; }
+});
+
+/* Cloud drift */
+if (!reducedMotion) {
+  document.querySelectorAll('.cloud').forEach((el, i) => {
+    const durations = [90, 110, 130, 95, 80];
+    gsap.fromTo(el, { x: -80 }, { x: 80, duration: durations[i] || 90, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: -i * 15 });
+  });
+}
+
+/* "Real work, running itself." — word-by-word impact reveal */
+if (!reducedMotion) {
+  gsap.from('#worldHeadline .word', {
+    y: 90, opacity: 0, scale: 0.92, duration: 1.1, stagger: 0.14, ease: 'power4.out',
+    scrollTrigger: { trigger: '#world', start: 'top 55%' }
+  });
+  gsap.from('#world .sub, #world .world-cta', {
+    y: 30, opacity: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out', delay: 0.2,
+    scrollTrigger: { trigger: '#world', start: 'top 55%' }
+  });
+  gsap.from('#ctaInner', {
+    y: 40, opacity: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: '#cta', start: 'top 70%' }
+  });
+}
+
+/* ─── GALLERY ─── */
+const gallery = document.getElementById('gallery');
+const galleryEmpty = document.getElementById('galleryEmpty');
+
+function mediaHTML(m, large) {
+  if (m.type === 'video') {
+    if (large) {
+      return `<video src="${m.src}" muted loop autoplay playsinline controls></video>`;
+    }
+    return `<video data-src="${m.src}" muted loop playsinline preload="metadata"></video>`;
+  }
+  if (m.type === 'image') {
+    return `<img src="${m.src}" alt="" loading="lazy">`;
+  }
+  const h = large ? Math.max(m.h || 220, 320) : (m.h || 220);
+  return `<div class="placeholder" style="height:${h}px;background:linear-gradient(135deg,${m.from},${m.to});font-size:${large ? 3.5 : 2.5}rem">${m.icon || ''}</div>`;
+}
+
+function renderGallery(filter) {
+  gallery.innerHTML = '';
+  const visible = PROJECTS.map((p, i) => ({ ...p, _i: i })).filter(p => filter === 'all' || p.category === filter);
+  galleryEmpty.style.display = visible.length ? 'none' : 'block';
+  visible.forEach(p => {
+    const card = document.createElement('article');
+    card.className = 'project-card';
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', `${p.title} — view details`);
+    card.innerHTML = `
+      <div class="media">${mediaHTML(p.media, false)}</div>
+      <div class="info">
+        <div class="meta"><h3>${p.title}</h3><p class="cat">${p.displayCategory || p.category}</p></div>
+        <button class="view-btn" tabindex="-1">View</button>
+      </div>`;
+    card.addEventListener('click', () => openModal(p._i));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(p._i); } });
+    gallery.appendChild(card);
+  });
+  if (!reducedMotion) {
+    gsap.from(gallery.children, { y: 24, opacity: 0, duration: 0.5, stagger: 0.05, ease: 'power2.out', clearProps: 'all' });
+  }
+}
+renderGallery('all');
+
+/* Play videos only while visible (battery + performance friendly) */
+const videoObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    const v = entry.target;
+    if (entry.isIntersecting) {
+      if (!v.src) v.src = v.dataset.src;
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+    }
+  });
+}, { rootMargin: '120px', threshold: 0.1 });
+
+function observeGalleryVideos() {
+  gallery.querySelectorAll('video[data-src]').forEach(v => videoObserver.observe(v));
+}
+observeGalleryVideos();
+
+document.querySelectorAll('.filter-pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGallery(btn.dataset.filter);
+    observeGalleryVideos();
+  });
+});
+
+/* ─── MODAL ─── */
+const backdrop = document.getElementById('modalBackdrop');
+let currentIndex = 0;
+let lastFocused = null;
+
+function openModal(i) {
+  currentIndex = i;
+  fillModal(PROJECTS[i]);
+  lastFocused = document.activeElement;
+  backdrop.classList.add('open');
+  requestAnimationFrame(() => backdrop.classList.add('visible'));
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modalClose').focus();
+}
+function closeModal() {
+  backdrop.classList.remove('visible');
+  setTimeout(() => {
+    backdrop.classList.remove('open');
+    document.getElementById('modalMedia').innerHTML = '';
+  }, 300);
+  document.body.style.overflow = '';
+  if (lastFocused) lastFocused.focus();
+}
+function fillModal(p) {
+  document.getElementById('modalMedia').innerHTML = mediaHTML(p.media, true);
+  document.getElementById('modalCat').textContent = p.displayCategory || p.category;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalDesc').textContent = p.description;
+  document.getElementById('modalTags').innerHTML = (p.tags || []).map(t => `<span>${t}</span>`).join('');
+  const actions = document.getElementById('modalActions');
+  actions.innerHTML = '';
+  if (p.link) {
+    const a = document.createElement('a');
+    a.href = p.link; a.target = '_blank'; a.rel = 'noopener';
+    a.className = 'pill m-link';
+    a.innerHTML = `${p.linkLabel || 'Visit project'} <span aria-hidden>↗</span>`;
+    actions.appendChild(a);
+  }
+}
+function stepModal(dir) {
+  currentIndex = (currentIndex + dir + PROJECTS.length) % PROJECTS.length;
+  fillModal(PROJECTS[currentIndex]);
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modalPrev').addEventListener('click', () => stepModal(-1));
+document.getElementById('modalNext').addEventListener('click', () => stepModal(1));
+backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+document.addEventListener('keydown', e => {
+  if (!backdrop.classList.contains('open')) return;
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowRight') stepModal(1);
+  if (e.key === 'ArrowLeft') stepModal(-1);
+});
+
+/* ─── TOAST (used when you later add copy/share actions) ─── */
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+/* ─── CONTACT LINK ─── */
+const contactLink = document.getElementById('contactLink');
+if (contactLink) {
+  contactLink.addEventListener('click', e => {
+    e.preventDefault();
+    const to = atob('dGluLmNsYXc5QGdtYWlsLmNvbQ==');
+    const subject = encodeURIComponent('Prime AI inquiry');
+    const body = encodeURIComponent('Hi Tin,\n\nI found Prime AI and would like to talk about...');
+    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+  });
+}
+
+/* ─── MENU ─── */
+const menuBtn = document.getElementById('menuBtn');
+const siteMenu = document.getElementById('siteMenu');
+menuBtn.addEventListener('click', () => {
+  const isOpen = siteMenu.classList.toggle('open');
+  menuBtn.classList.toggle('open', isOpen);
+  menuBtn.setAttribute('aria-expanded', isOpen);
+  menuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+});
+siteMenu.querySelectorAll('.menu-link').forEach(a => a.addEventListener('click', () => {
+  siteMenu.classList.remove('open');
+  menuBtn.classList.remove('open');
+  menuBtn.setAttribute('aria-expanded', 'false');
+}));
+</script>
+</body>
+</html>
