@@ -81,6 +81,12 @@ nav .nav-right{display:flex;align-items:center;gap:.75rem}
 @media(min-width:769px){.hero-overlay .scroll-hint{display:block}}
 
 .hero-veil{position:absolute;inset:0;z-index:10;opacity:0;pointer-events:none;background:linear-gradient(180deg,#59cdf5 0%,#20BDF2 55%,#0d9ee6 100%)}
+.portal-arrival{position:absolute;inset:0;z-index:11;display:flex;align-items:center;justify-content:center;pointer-events:none;opacity:0;transform:scale(.9);will-change:opacity,transform}
+.arrival-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1rem;padding:2rem 2.5rem;border-radius:32px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.28);box-shadow:0 28px 90px rgba(8,62,94,.20),inset 0 1px 0 rgba(255,255,255,.32);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.arrival-mark{width:86px;height:86px;color:#fff;filter:drop-shadow(0 12px 28px rgba(8,70,110,.22))}
+.arrival-title{font-size:clamp(2.6rem,6vw,5rem);font-weight:800;letter-spacing:-.06em;line-height:.9;color:#fff;text-shadow:0 8px 32px rgba(8,70,110,.28)}
+.arrival-title .ai{color:#e9fbff;text-shadow:0 0 22px rgba(255,255,255,.55)}
+.arrival-sub{font-size:.72rem;text-transform:uppercase;letter-spacing:.28em;color:rgba(255,255,255,.76)}
 .loading-screen{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:var(--ink);transition:opacity .7s ease}
 .loading-screen.hidden{opacity:0;pointer-events:none}
 
@@ -187,6 +193,10 @@ footer .copy{font-size:.7rem;color:rgba(246,246,242,.35)}
   .portal-label{padding:0 1.25rem;gap:.7rem;transform:translateY(-3vh)}
   .portal-label .pl-brand{font-size:.72rem;letter-spacing:.34em}
   .portal-label .pl-sub{font-size:.58rem;letter-spacing:.22em}
+  .arrival-card{width:min(88vw,330px);padding:1.6rem 1.45rem;border-radius:26px;gap:.85rem}
+  .arrival-mark{width:68px;height:68px}
+  .arrival-title{font-size:clamp(2.65rem,14vw,4.2rem)}
+  .arrival-sub{font-size:.58rem;letter-spacing:.2em;line-height:1.55}
   .hero-overlay .inner{gap:1.5rem;padding:1.25rem 1.15rem 2rem}
   .hero-overlay h1{font-size:clamp(2.55rem,13vw,4rem);line-height:.98;max-width:9ch}
   .hero-overlay p.tagline{font-size:1.02rem;line-height:1.48;margin-top:1rem;max-width:21rem}
@@ -303,6 +313,19 @@ footer .copy{font-size:.7rem;color:rgba(246,246,242,.35)}
       </div>
     </div>
     <div class="hero-veil" id="heroVeil"></div>
+    <div class="portal-arrival" id="portalArrival" aria-hidden="true">
+      <div class="arrival-card">
+        <svg class="arrival-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <circle cx="20" cy="20" r="15.5" stroke="currentColor" stroke-opacity="0.42" stroke-width="2"/>
+          <circle cx="20" cy="20" r="15.5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="58 40" transform="rotate(-55 20 20)"/>
+          <circle cx="20" cy="20" r="6.5" fill="white" fill-opacity="0.95"/>
+          <circle cx="20" cy="20" r="6.5" fill="url(#arrivalGlow)"/>
+          <defs><radialGradient id="arrivalGlow" cx="0.35" cy="0.3" r="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#bfeaff"/></radialGradient></defs>
+        </svg>
+        <div class="arrival-title">Prime<span class="ai"> AI</span></div>
+        <div class="arrival-sub">Agents · Automation · Workflows</div>
+      </div>
+    </div>
   </section>
 </div>
 
@@ -590,9 +613,13 @@ if (!reducedMotion) {
       const overlay = document.getElementById('heroOverlay');
       const veil = document.getElementById('heroVeil');
       const label = document.getElementById('portalLabel');
+      const arrival = document.getElementById('portalArrival');
       overlay.style.opacity = Math.max(0, Math.min(1, 1 - p / 0.45));
       overlay.style.transform = `translateY(${p * 60}px)`;
-      veil.style.opacity = Math.max(0, Math.min(1, (p - 0.86) / 0.14));
+      veil.style.opacity = Math.max(0, Math.min(1, (p - 0.80) / 0.16));
+      const ap = Math.max(0, Math.min(1, (p - 0.84) / 0.12));
+      arrival.style.opacity = ap;
+      arrival.style.transform = `scale(${0.9 + ap * 0.1}) translateY(${(1 - ap) * 18}px)`;
       // Label scales up and fades as you fly past it
       const lp = Math.max(0, Math.min(1, p / 0.55));
       label.style.opacity = 1 - lp;
